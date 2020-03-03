@@ -4,6 +4,6 @@ export const ALL_HANDSIDES = {
   left: 'LEFT'
 }
 export const ALL_HAND_POSTURES = {
-  open: 'OPEN',
-  close: 'CLOSE'
+  open: 'O',
+  close: 'C'
 }
