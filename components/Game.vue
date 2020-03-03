@@ -11,7 +11,7 @@
 
     <div class="game-status">
       <p>TOTAL OPENED HANDS: {{ totalOpenHands }}</p>
-      <p>PREDICTION:</p>
+      <p>PREDICTION: {{ prediction }}</p>
     </div>
 
     <div class="player">
@@ -42,7 +42,8 @@ import TeamHeader from '../components/TeamHeader.vue'
 import {
   ALL_HANDSIDES,
   ALL_HAND_DIRECTIONS,
-  ALL_HAND_POSTURES
+  ALL_HAND_POSTURES,
+  ROLES
 } from '../constants/constants.js'
 
 export default {
@@ -57,7 +58,7 @@ export default {
       ALL_HAND_DIRECTIONS,
       userInput: '',
       players: [
-        { name: 'AI', hands: 'CO', role: 'PREDICTOR' },
+        { name: 'AI', hands: 'CO2', role: 'PREDICTOR' },
         { name: 'P1', hands: 'OO', role: 'NORMAL' }
       ]
     }
@@ -70,6 +71,14 @@ export default {
         totalOpenHands += thisPlayerTotalOpenHand
       })
       return totalOpenHands
+    },
+    prediction() {
+      const predictor = this.players.filter(
+        (player) => player.role === ROLES.predictor
+      )
+      const predictionArray = predictor[0].hands.match(/[0-9]/g)
+      const predictionNumber = parseInt(predictionArray[0])
+      return predictionNumber
     }
   }
 }

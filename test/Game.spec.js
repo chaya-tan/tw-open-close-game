@@ -9,10 +9,18 @@ describe('Game', () => {
   })
   test('count open hands correctly', () => {
     const sampleGamePlayers = [
-      { name: 'AI', hands: 'CO', role: 'PREDICTOR' },
+      { name: 'AI', hands: 'CO2', role: 'PREDICTOR' },
       { name: 'P1', hands: 'OO', role: 'NORMAL' }
     ]
     wrapper.vm.players = sampleGamePlayers
     expect(wrapper.vm.totalOpenHands).toBe(3)
+  })
+  test('can get prediction number from predictor', () => {
+    const sampleGamePlayers = [
+      { name: 'AI', hands: 'CO4', role: 'PREDICTOR' },
+      { name: 'P1', hands: 'OO', role: 'NORMAL' }
+    ]
+    wrapper.vm.players = sampleGamePlayers
+    expect(wrapper.vm.prediction).toBe(4)
   })
 })
