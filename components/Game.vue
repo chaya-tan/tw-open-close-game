@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="opposite">
-      <TeamHeader name="AI" role="PREDICTOR" />
+      <TeamHeader :name="players[0].name" :role="players[0].role" />
       <HandGroup
         :direction="ALL_HAND_DIRECTIONS.downward"
-        :left-posture="ALL_HAND_POSTURES.close"
-        :right-posture="ALL_HAND_POSTURES.close"
+        :left-posture="playersHands[0].left"
+        :right-posture="playersHands[0].right"
       />
     </div>
 
@@ -17,8 +17,8 @@
     <div class="player">
       <HandGroup
         :direction="ALL_HAND_DIRECTIONS.upward"
-        :left-posture="ALL_HAND_POSTURES.close"
-        :right-posture="ALL_HAND_POSTURES.close"
+        :left-posture="playersHands[1].left"
+        :right-posture="playersHands[1].right"
       />
 
       <div class="form-group">
@@ -31,7 +31,7 @@
           placeholder="OC2"
         />
       </div>
-      <TeamHeader name="P1" role="NORMAL" />
+      <TeamHeader :name="players[1].name" :role="players[1].role" />
     </div>
   </div>
 </template>
@@ -59,7 +59,7 @@ export default {
       userInput: '',
       players: [
         { name: 'AI', hands: 'CO2', role: 'PREDICTOR' },
-        { name: 'P1', hands: 'OO', role: 'NORMAL' }
+        { name: 'P1', hands: 'OC', role: 'NORMAL' }
       ]
     }
   },
@@ -79,6 +79,17 @@ export default {
       const predictionArray = predictor[0].hands.match(/[0-9]/g)
       const predictionNumber = parseInt(predictionArray[0])
       return predictionNumber
+    },
+    isPredictionCorrect() {
+      return this.totalOpenHands === this.prediction
+    },
+    playersHands() {
+      const hands = this.players.map((player) => {
+        const left = player.hands.substring(0, 1)
+        const right = player.hands.substring(1, 2)
+        return { left, right }
+      })
+      return hands
     }
   }
 }
