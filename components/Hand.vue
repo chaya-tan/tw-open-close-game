@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="hand-container">
     <img
       :src="
         require(`../assets/images/hands/${
@@ -8,8 +8,7 @@
       "
       :class="imgClass"
     />
-    <p>{{ handSide }}</p>
-    <p>{{ handDirection }}</p>
+    <p>{{ posture }}</p>
   </div>
 </template>
 
@@ -58,22 +57,28 @@ export default {
 </script>
 
 <style scoped>
+.hand-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 img {
   border: none;
+  height: 70px;
 }
-
 .open {
   width: 60px;
 }
 .close {
   width: 50px;
 }
-
 .left {
   transform: scaleX(-1);
 }
-
 .downward {
   transform: scaleY(-1);
+}
+.left.downward {
+  transform: scaleX(-1) scaleY(-1);
 }
 </style>
