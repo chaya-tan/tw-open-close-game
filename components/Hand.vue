@@ -43,14 +43,17 @@ export default {
     }
   },
   computed: {
+    postureClass() {
+      return this.posture === ALL_HAND_POSTURES.open ? 'open' : 'close'
+    },
+    directionClass() {
+      return this.handDirection === ALL_HAND_DIRECTIONS.downward && 'downward'
+    },
+    handSideClass() {
+      return this.handSide === ALL_HANDSIDES.left ? 'left' : 'right'
+    },
     imgClass() {
-      const postureClass =
-        this.posture === ALL_HAND_POSTURES.open ? 'open' : 'close'
-      const directionClass =
-        this.handDirection === ALL_HAND_DIRECTIONS.downward && 'downward'
-      const handSideClass =
-        this.handSide === ALL_HANDSIDES.left ? 'left' : 'right'
-      return `${postureClass} ${directionClass} ${handSideClass}`
+      return `${this.postureClass} ${this.directionClass} ${this.handSideClass}`
     }
   }
 }
