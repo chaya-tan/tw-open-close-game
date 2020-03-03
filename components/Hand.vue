@@ -3,7 +3,7 @@
     <img
       :src="
         require(`../assets/images/hands/${
-          posture === handPostures.open ? 'open-hand' : 'fist'
+          posture === ALL_HAND_POSTURES.open ? 'open-hand' : 'fist'
         }.svg`)
       "
       :class="imgClass"
@@ -14,16 +14,17 @@
 </template>
 
 <script>
-import GameTurn from '../modules/GameTurn'
-import { ALL_HANDSIDES, ALL_HAND_DIRECTIONS } from '../constants/constants.js'
-
-const { handPostures } = new GameTurn()
+import {
+  ALL_HAND_POSTURES,
+  ALL_HANDSIDES,
+  ALL_HAND_DIRECTIONS
+} from '../constants/constants.js'
 
 export default {
   props: {
     posture: {
       type: String,
-      default: handPostures.open,
+      default: ALL_HAND_POSTURES.open,
       required: false
     },
     handSide: {
@@ -39,12 +40,13 @@ export default {
   },
   data() {
     return {
-      handPostures
+      ALL_HAND_POSTURES
     }
   },
   computed: {
     imgClass() {
-      const postureClass = this.posture === handPostures.open ? 'open' : 'close'
+      const postureClass =
+        this.posture === ALL_HAND_POSTURES.open ? 'open' : 'close'
       const directionClass =
         this.handDirection === ALL_HAND_DIRECTIONS.downward && 'downward'
       const handSideClass =

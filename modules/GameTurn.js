@@ -4,10 +4,6 @@ class GameTurn {
       ai: 'AI',
       player1: 'P1'
     }
-    this.handPostures = {
-      open: 'OPEN',
-      close: 'CLOSE'
-    }
     this.thisTurnPredictor = this.players.ai
   }
 }

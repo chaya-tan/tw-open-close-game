@@ -6,22 +6,22 @@
         <span class="badge secondary">predictor</span>
       </h2>
       <Hand
-        posture="CLOSE"
+        :posture="ALL_HAND_POSTURES.close"
         :hand-side="ALL_HANDSIDES.right"
         :hand-direction="ALL_HAND_DIRECTIONS.downward"
       />
       <Hand
-        posture="OPEN"
+        :posture="ALL_HAND_POSTURES.open"
         :hand-side="ALL_HANDSIDES.left"
         :hand-direction="ALL_HAND_DIRECTIONS.downward"
       />
       <Hand
-        posture="CLOSE"
+        :posture="ALL_HAND_POSTURES.close"
         :hand-side="ALL_HANDSIDES.right"
         :hand-direction="ALL_HAND_DIRECTIONS.upward"
       />
       <Hand
-        posture="OPEN"
+        :posture="ALL_HAND_POSTURES.open"
         :hand-side="ALL_HANDSIDES.left"
         :hand-direction="ALL_HAND_DIRECTIONS.upward"
       />
@@ -37,10 +37,14 @@
 <script>
 import Hand from '../components/Hand.vue'
 import GameTurn from '../modules/GameTurn.js'
-import { ALL_HANDSIDES, ALL_HAND_DIRECTIONS } from '../constants/constants.js'
+import {
+  ALL_HANDSIDES,
+  ALL_HAND_DIRECTIONS,
+  ALL_HAND_POSTURES
+} from '../constants/constants.js'
 
 const thisTurn = new GameTurn()
-const { players, handPostures, thisTurnPredictor } = thisTurn
+const { players, thisTurnPredictor } = thisTurn
 
 export default {
   components: {
@@ -49,7 +53,7 @@ export default {
   data() {
     return {
       players,
-      handPostures,
+      ALL_HAND_POSTURES,
       thisTurnPredictor,
       ALL_HANDSIDES,
       ALL_HAND_DIRECTIONS
