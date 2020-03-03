@@ -10,7 +10,7 @@
     </div>
 
     <div class="game-status">
-      <p>TOTAL OPENED HANDS:</p>
+      <p>TOTAL OPENED HANDS: {{ totalOpenHands }}</p>
       <p>PREDICTION:</p>
     </div>
 
@@ -25,7 +25,7 @@
         <label for="player-input">Next turn hands.</label>
         <input
           id="player-input"
-          v-model="playerInput"
+          v-model="userInput"
           class="player-input"
           type="text"
           placeholder="OC2"
@@ -55,7 +55,21 @@ export default {
       ALL_HAND_POSTURES,
       ALL_HANDSIDES,
       ALL_HAND_DIRECTIONS,
-      playerInput: ''
+      userInput: '',
+      players: [
+        { name: 'AI', hands: 'CO', role: 'PREDICTOR' },
+        { name: 'P1', hands: 'OO', role: 'NORMAL' }
+      ]
+    }
+  },
+  computed: {
+    totalOpenHands() {
+      let totalOpenHands = 0
+      this.players.map((player) => {
+        const thisPlayerTotalOpenHand = (player.hands.match(/O/g) || []).length
+        totalOpenHands += thisPlayerTotalOpenHand
+      })
+      return totalOpenHands
     }
   }
 }
