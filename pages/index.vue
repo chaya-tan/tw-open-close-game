@@ -1,68 +1,66 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        tw-open-close-game
-      </h1>
-      <h2 class="subtitle">
-        Predict total opened hand game
+    <div class="paper border border-primary">
+      <h2 class="team-label">
+        AI
+        <span class="badge secondary">predictor</span>
       </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <Hand
+        posture="CLOSE"
+        :hand-side="ALL_HANDSIDES.right"
+        :hand-direction="ALL_HAND_DIRECTIONS.downward"
+      />
+      <Hand
+        posture="OPEN"
+        :hand-side="ALL_HANDSIDES.left"
+        :hand-direction="ALL_HAND_DIRECTIONS.downward"
+      />
+      <Hand
+        posture="CLOSE"
+        :hand-side="ALL_HANDSIDES.right"
+        :hand-direction="ALL_HAND_DIRECTIONS.upward"
+      />
+      <Hand
+        posture="OPEN"
+        :hand-side="ALL_HANDSIDES.left"
+        :hand-direction="ALL_HAND_DIRECTIONS.upward"
+      />
+      <h2 class="team-label">P1</h2>
+      <div class="form-group">
+        <label for="paperInputs1">This turn hands</label>
+        <input id="paperInputs1" type="text" placeholder="OC2" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Hand from '../components/Hand.vue'
+import GameTurn from '../modules/GameTurn.js'
+import { ALL_HANDSIDES, ALL_HAND_DIRECTIONS } from '../constants/constants.js'
+
+const thisTurn = new GameTurn()
+const { players, handPostures, thisTurnPredictor } = thisTurn
 
 export default {
   components: {
-    Logo
+    Hand
+  },
+  data() {
+    return {
+      players,
+      handPostures,
+      thisTurnPredictor,
+      ALL_HANDSIDES,
+      ALL_HAND_DIRECTIONS
+    }
   }
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<style scoped>
+.team-label {
   text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  margin: 0;
 }
 </style>
