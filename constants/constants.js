@@ -7,3 +7,7 @@ export const ALL_HAND_POSTURES = {
   open: 'O',
   close: 'C'
 }
+export const ROLES = {
+  predictor: 'PREDICTOR',
+  normal: 'NORMAL'
+}
