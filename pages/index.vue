@@ -5,37 +5,37 @@
         AI
         <span class="badge secondary">predictor</span>
       </h2>
-      <Hand
-        :posture="ALL_HAND_POSTURES.close"
-        :hand-side="ALL_HANDSIDES.right"
-        :hand-direction="ALL_HAND_DIRECTIONS.downward"
+
+      <HandGroup
+        :direction="ALL_HAND_DIRECTIONS.downward"
+        :left-posture="ALL_HAND_POSTURES.open"
+        :right-posture="ALL_HAND_POSTURES.close"
       />
-      <Hand
-        :posture="ALL_HAND_POSTURES.open"
-        :hand-side="ALL_HANDSIDES.left"
-        :hand-direction="ALL_HAND_DIRECTIONS.downward"
+
+      <HandGroup
+        :direction="ALL_HAND_DIRECTIONS.upward"
+        :left-posture="ALL_HAND_POSTURES.close"
+        :right-posture="ALL_HAND_POSTURES.close"
       />
-      <Hand
-        :posture="ALL_HAND_POSTURES.close"
-        :hand-side="ALL_HANDSIDES.right"
-        :hand-direction="ALL_HAND_DIRECTIONS.upward"
-      />
-      <Hand
-        :posture="ALL_HAND_POSTURES.open"
-        :hand-side="ALL_HANDSIDES.left"
-        :hand-direction="ALL_HAND_DIRECTIONS.upward"
-      />
-      <h2 class="team-label">P1</h2>
+
       <div class="form-group">
-        <label for="paperInputs1">This turn hands</label>
-        <input id="paperInputs1" type="text" placeholder="OC2" />
+        <label for="player-input"
+          >This turn hands. 'O' for open and 'C' for close</label
+        >
+        <input
+          id="player-input"
+          class="player-input"
+          type="text"
+          placeholder="OC2"
+        />
       </div>
+      <h2 class="team-label">P1</h2>
     </div>
   </div>
 </template>
 
 <script>
-import Hand from '../components/Hand.vue'
+import HandGroup from '../components/HandGroup.vue'
 import GameTurn from '../modules/GameTurn.js'
 import {
   ALL_HANDSIDES,
@@ -48,7 +48,7 @@ const { players, thisTurnPredictor } = thisTurn
 
 export default {
   components: {
-    Hand
+    HandGroup
   },
   data() {
     return {
@@ -63,8 +63,18 @@ export default {
 </script>
 
 <style scoped>
+.paper {
+  height: 95vh;
+}
 .team-label {
   text-align: center;
   margin: 0;
+}
+.player-hands-group {
+  display: flex;
+  justify-content: center;
+}
+.player-input {
+  width: 3em;
 }
 </style>
