@@ -44,7 +44,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ['~/modules/gameturn'],
+  modules: [],
   /*
    ** Build configuration
    */
