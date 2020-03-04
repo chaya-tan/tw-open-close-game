@@ -204,9 +204,20 @@ export default {
     isNormalInputFormat(input) {
       return (input.match(REGEX.normal) || []).length > 0 && input.length === 2
     },
+    setNextTurn(input) {
+      const nextTurnPlayers = this.nextTurnRole.map((player) => {
+        return {
+          name: player.name,
+          role: player.role,
+          hands: this.randomHands(player.role)
+        }
+      })
+      nextTurnPlayers[this.userIndex].hands = input
+      this.players = nextTurnPlayers
+    },
     onSubmit(e) {
       if (this.isInputCorrect) {
-        console.log('correct')
+        this.setNextTurn(this.userInput)
       } else {
         this.formatWarning = `Please input in format ${
           this.nextTurnUserIsPredictor ? 'OC3' : 'OC'
