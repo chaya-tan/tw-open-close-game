@@ -1,10 +1,10 @@
 # tw-open-close-game
 
-> Predict total opened hand game
+> The game that predict total open hands from 2 players. This game came from Thoughworks' new grad code assignment
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 
@@ -20,4 +20,3 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-# tw-open-close-game
