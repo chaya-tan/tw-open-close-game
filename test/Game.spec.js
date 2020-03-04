@@ -72,11 +72,13 @@ describe('Game', () => {
   })
 
   describe('AI randomizer', () => {
-    test('AI can random correct form in predictor role', () => {
-      const randomPredictor = wrapper.vm.randomHands(ROLES.predictor)
-      expect((randomPredictor.match(REGEX.predictor) || []).length > 0).toBe(
-        true
-      )
+    test('can random correct form in predictor role', () => {
+      const randomResult = wrapper.vm.randomHands(ROLES.predictor)
+      expect(wrapper.vm.isPredictorInputFormat(randomResult)).toBe(true)
+    })
+    test('can random correct form in normal role', () => {
+      const randomResult = wrapper.vm.randomHands(ROLES.normal)
+      expect(wrapper.vm.isNormalInputFormat(randomResult)).toBe(true)
     })
   })
 })
