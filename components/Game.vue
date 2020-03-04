@@ -113,23 +113,12 @@ export default {
     nextTurnUserIsPredictor() {
       return this.nextTurnRole[this.userIndex].role === ROLES.predictor
     },
-    isPredictorInputFormat() {
-      return (
-        (this.userInput.match(/[O|C][O|C][0-4]/g) || []).length > 0 &&
-        this.userInput.length === 3
-      )
-    },
-    isNormalInputFormat() {
-      return (
-        (this.userInput.match(/[O|C][O|C]/g) || []).length > 0 &&
-        this.userInput.length === 2
-      )
-    },
+
     isInputCorrect() {
       if (this.nextTurnUserIsPredictor) {
-        return this.isPredictorInputFormat
+        return this.isPredictorInputFormat(this.userInput)
       } else {
-        return this.isNormalInputFormat
+        return this.isNormalInputFormat(this.userInput)
       }
     },
     userInputPlaceholder() {
@@ -193,10 +182,36 @@ export default {
         this.formatWarning = ''
       }
     },
+    randomHands(role) {
+      const totalHands = 2
+      const possileHands = Object.values(POSTURES)
+      let randomResult = ''
+      for (let hand = 0; hand < totalHands; hand++) {
+        randomResult +=
+          possileHands[Math.floor(Math.random() * possileHands.length)]
+      }
+      if (role === ROLES.predictor) {
+        randomResult += Math.ceil(Math.random() * 4)
+      }
+      return randomResult
+    },
+    isPredictorInputFormat(input) {
+      return (
+        (input.match(/[O|C][O|C][0-4]/g) || []).length > 0 && input.length === 3
+      )
+    },
+    isNormalInputFormat(input) {
+      return (input.match(/[O|C][O|C]/g) || []).length > 0 && input.length === 2
+    },
     onSubmit(e) {
-      // TO DO: check format again before submit
-      console.log(e)
-      console.log('input', this.userInput)
+      if (this.isInputCorrect) {
+        console.log('correct')
+      } else {
+        this.formatWarning = `Please input in format ${
+          this.nextTurnUserIsPredictor ? 'OC3' : 'OC'
+        } while 'O' = open, 'C' = close ${this.nextTurnUserIsPredictor &&
+          'and number 0-4 for total open hands prediction'}`
+      }
     }
   }
 }
