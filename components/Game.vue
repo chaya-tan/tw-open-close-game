@@ -38,7 +38,6 @@
             {{ nextTurnUserIsPredictor ? 'predictor' : 'non-predictor' }}.
           </p>
           <input
-            id="player-input"
             v-model="userInput"
             class="player-input"
             type="text"
@@ -46,7 +45,7 @@
             @input="onInput"
             @keyup.enter="onSubmit"
           />
-          <p class="text-danger">{{ formatWarning }}</p>
+          <p class="text-danger format-warning">{{ formatWarning }}</p>
         </div>
       </div>
       <HowToPlayModal />
@@ -188,7 +187,7 @@ export default {
           this.deleteAndWarnIfPredictionFormatWrong(lastLetter)
         } else {
           this.formatWarning =
-            'only 2 letter allowed for non-predictor! hit ENTER to submit'
+            'only 2 letter allowed for non-predictor!\nhit ENTER to submit'
           this.deleteLastLetterInUserInput()
         }
       } else if (this.inputLength > 3) {
@@ -271,5 +270,8 @@ export default {
 }
 .player-input {
   width: 3em;
+}
+.format-warning {
+  max-width: 260px;
 }
 </style>
