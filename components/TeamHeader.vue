@@ -1,10 +1,13 @@
 <template>
-  <h2 class="team-label">
+  <h3 class="team-label">
     {{ name }}
     <span v-if="role === ROLES.predictor" class="badge secondary"
-      >predictor</span
+      >predict: {{ prediction }}</span
     >
-  </h2>
+    <span v-if="role === ROLES.predictor && won" class="badge success"
+      >WON!</span
+    >
+  </h3>
 </template>
 
 <script>
@@ -21,6 +24,16 @@ export default {
       type: String,
       required: false,
       default: 'NORMAL'
+    },
+    prediction: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    won: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {

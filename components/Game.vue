@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="opposite">
-      <TeamHeader :name="players[0].name" :role="players[0].role" />
+      <TeamHeader
+        :name="players[0].name"
+        :role="players[0].role"
+        :prediction="predictionNumber"
+        :won="isPredictionCorrect"
+      />
       <HandGroup
         :direction="ALL_HAND_DIRECTIONS.downward"
         :left-posture="playersHands[0].left"
@@ -18,22 +23,31 @@
       <TeamHeader
         :name="players[userIndex].name"
         :role="players[userIndex].role"
+        :prediction="predictionNumber"
+        :won="isPredictionCorrect"
       />
-      <div class="form-group border-dotted border-thick">
-        <p>
-          Next turn you are
-          {{ nextTurnUserIsPredictor ? 'predictor' : 'non-predictor' }}.
-        </p>
-        <input
-          id="player-input"
-          v-model="userInput"
-          class="player-input"
-          type="text"
-          :placeholder="userInputPlaceholder"
-          @input="onInput"
-          @keyup.enter="onSubmit"
-        />
-        <p class="text-danger">{{ formatWarning }}</p>
+
+      <div class="border-dotted border-thick">
+        <div v-if="isPredictionCorrect" class="form-group">
+          GAME END!
+          <button @click="reloadPage">PLAY AGAIN</button>
+        </div>
+        <div v-else class="form-group">
+          <p>
+            Next turn you are
+            {{ nextTurnUserIsPredictor ? 'predictor' : 'non-predictor' }}.
+          </p>
+          <input
+            id="player-input"
+            v-model="userInput"
+            class="player-input"
+            type="text"
+            :placeholder="userInputPlaceholder"
+            @input="onInput"
+            @keyup.enter="onSubmit"
+          />
+          <p class="text-danger">{{ formatWarning }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -63,10 +77,11 @@ export default {
       userInput: '',
       formatWarning: '',
       players: [
-        { name: 'AI', hands: 'CO2', role: ROLES.predictor },
+        { name: 'AI', hands: 'CO1', role: ROLES.predictor },
         { name: 'YOU', hands: 'OC', role: ROLES.normal }
       ],
-      userIndex: 1
+      userIndex: 1,
+      ROLES
     }
   },
   computed: {
@@ -224,6 +239,9 @@ export default {
         } while 'O' = open, 'C' = close ${this.nextTurnUserIsPredictor &&
           'and number 0-4 for total open hands prediction'}`
       }
+    },
+    reloadPage() {
+      window.location.reload()
     }
   }
 }
