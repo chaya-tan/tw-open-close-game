@@ -27,7 +27,7 @@
         :won="isPredictionCorrect"
       />
 
-      <div class="border-dotted border-thick">
+      <div class="border-dotted border-thick control-panel">
         <div v-if="isPredictionCorrect" class="game-end">
           GAME END!
           <button @click="reloadPage">PLAY AGAIN</button>
@@ -49,6 +49,7 @@
           <p class="text-danger">{{ formatWarning }}</p>
         </div>
       </div>
+      <HowToPlayModal />
     </div>
   </div>
 </template>
@@ -56,6 +57,7 @@
 <script>
 import HandGroup from '../components/HandGroup.vue'
 import TeamHeader from '../components/TeamHeader.vue'
+import HowToPlayModal from '../components/HowToPlayModal.vue'
 import {
   HANDSIDES,
   HAND_DIRECTIONS,
@@ -67,7 +69,8 @@ import {
 export default {
   components: {
     HandGroup,
-    TeamHeader
+    TeamHeader,
+    HowToPlayModal
   },
   data() {
     return {
@@ -77,7 +80,7 @@ export default {
       userInput: '',
       formatWarning: '',
       players: [
-        { name: 'AI', hands: 'CO1', role: ROLES.predictor },
+        { name: 'AI', hands: 'CO0', role: ROLES.predictor },
         { name: 'YOU', hands: 'OC', role: ROLES.normal }
       ],
       userIndex: 1,
