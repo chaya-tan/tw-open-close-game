@@ -43,3 +43,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.team-label {
+  text-align: center;
+  margin: 0 0 15px 0;
+}
+</style>

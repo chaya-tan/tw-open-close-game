@@ -17,10 +17,15 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+}
 .paper {
   height: 95vh;
   min-height: 700px;
   min-width: 420px;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="game-container">
     <div class="opposite">
       <TeamHeader
         :name="players[0].name"
@@ -28,7 +28,7 @@
       />
 
       <div class="border-dotted border-thick">
-        <div v-if="isPredictionCorrect" class="form-group">
+        <div v-if="isPredictionCorrect" class="game-end">
           GAME END!
           <button @click="reloadPage">PLAY AGAIN</button>
         </div>
@@ -248,19 +248,24 @@ export default {
 </script>
 
 <style scoped>
+.game-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.game-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 20px;
+}
 .form-group {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0;
-}
-.team-label {
-  text-align: center;
-  margin: 0;
-}
-.player-hands-group {
-  display: flex;
-  justify-content: center;
 }
 .player-input {
   width: 3em;
