@@ -11,14 +11,14 @@
 
     <div class="game-status">
       <p>TOTAL OPENED HANDS: {{ totalOpenHands }}</p>
-      <p>PREDICTION: {{ prediction }}</p>
+      <p>PREDICTION: {{ predictionNumber }}</p>
     </div>
 
     <div class="player">
       <HandGroup
         :direction="ALL_HAND_DIRECTIONS.upward"
-        :left-posture="playersHands[1].left"
-        :right-posture="playersHands[1].right"
+        :left-posture="playersHands[userIndex].left"
+        :right-posture="playersHands[userIndex].right"
       />
 
       <div class="form-group">
@@ -29,9 +29,15 @@
           class="player-input"
           type="text"
           placeholder="OC2"
+          @input="onInput"
+          @submit="onSubmit"
         />
+        <p class="text-danger">{{ formatWarning }}</p>
       </div>
-      <TeamHeader :name="players[1].name" :role="players[1].role" />
+      <TeamHeader
+        :name="players[userIndex].name"
+        :role="players[userIndex].role"
+      />
     </div>
   </div>
 </template>
@@ -57,10 +63,12 @@ export default {
       ALL_HANDSIDES,
       ALL_HAND_DIRECTIONS,
       userInput: '',
+      formatWarning: '',
       players: [
-        { name: 'AI', hands: 'CO2', role: 'PREDICTOR' },
-        { name: 'P1', hands: 'OC', role: 'NORMAL' }
-      ]
+        { name: 'AI', hands: 'CO3', role: ROLES.predictor },
+        { name: 'P1', hands: 'OC', role: ROLES.normal }
+      ],
+      userIndex: 1
     }
   },
   computed: {
@@ -72,7 +80,7 @@ export default {
       })
       return totalOpenHands
     },
-    prediction() {
+    predictionNumber() {
       const predictor = this.players.filter(
         (player) => player.role === ROLES.predictor
       )
@@ -90,6 +98,67 @@ export default {
         return { left, right }
       })
       return hands
+    },
+    inputLength() {
+      return this.userInput.length
+    },
+    userIsPredictor() {
+      return this.players[this.userIndex].role === ROLES.predictor
+    }
+  },
+  methods: {
+    isHandPostureFormat(lastLetter) {
+      return (lastLetter.match(/O|C/g) || []).length > 0
+    },
+    isPredictionFormat(predictionLetter) {
+      return (predictionLetter.match(/[0-4]/g) || []).length > 0
+    },
+    deleteLastLetterInUserInput() {
+      const userInput = this.userInput
+      this.userInput = userInput.substr(0, userInput.length - 1)
+    },
+    deleteAndWarnIfPostoreFormatWrong(lastLetter) {
+      if (this.isHandPostureFormat(lastLetter)) {
+        this.formatWarning = ''
+      } else {
+        this.deleteLastLetterInUserInput()
+        this.formatWarning = 'Only O or C for the first 2'
+      }
+    },
+    deleteAndWarnIfPredictionFormatWrong(lastLetter) {
+      if (this.isPredictionFormat(lastLetter)) {
+        this.formatWarning = ''
+      } else {
+        this.deleteLastLetterInUserInput()
+        this.formatWarning = 'Only 0-4 for the prediction'
+      }
+    },
+    checkUserInputFormat(lastLetter) {
+      if (this.inputLength > 0 && this.inputLength < 3) {
+        this.deleteAndWarnIfPostoreFormatWrong(lastLetter)
+      } else if (this.inputLength === 3) {
+        if (this.userIsPredictor) {
+          this.deleteAndWarnIfPredictionFormatWrong(lastLetter)
+        } else {
+          this.formatWarning = 'only 2 letter allowed for non-predictor!'
+          this.deleteLastLetterInUserInput()
+        }
+      } else if (this.inputLength > 3) {
+        this.formatWarning = 'only 3 letter allowed for predictor!'
+        this.deleteLastLetterInUserInput()
+      }
+    },
+    onInput(e) {
+      if (e.inputType === 'insertText') {
+        const lastLetter = e.data.toUpperCase()
+        this.userInput = this.userInput.toUpperCase()
+        this.checkUserInputFormat(lastLetter)
+      } else if (e.inputType === 'deleteContentBackward') {
+        this.formatWarning = ''
+      }
+    },
+    onSubmit(e) {
+      // TO DO: check format again before submit
     }
   }
 }
