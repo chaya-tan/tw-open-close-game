@@ -13,11 +13,7 @@
 </template>
 
 <script>
-import {
-  POSTURES,
-  ALL_HANDSIDES,
-  ALL_HAND_DIRECTIONS
-} from '../constants/constants.js'
+import { POSTURES, HANDSIDES, HAND_DIRECTIONS } from '../constants/constants.js'
 
 export default {
   props: {
@@ -28,12 +24,12 @@ export default {
     },
     handSide: {
       type: String,
-      default: ALL_HANDSIDES.right,
+      default: HANDSIDES.right,
       required: false
     },
     handDirection: {
       type: String,
-      default: ALL_HAND_DIRECTIONS.downward,
+      default: HAND_DIRECTIONS.downward,
       required: false
     }
   },
@@ -47,10 +43,10 @@ export default {
       return this.posture === POSTURES.open ? 'open' : 'close'
     },
     directionClass() {
-      return this.handDirection === ALL_HAND_DIRECTIONS.downward && 'downward'
+      return this.handDirection === HAND_DIRECTIONS.downward && 'downward'
     },
     handSideClass() {
-      return this.handSide === ALL_HANDSIDES.left ? 'left' : 'right'
+      return this.handSide === HANDSIDES.left ? 'left' : 'right'
     },
     imgClass() {
       return `${this.postureClass} ${this.directionClass} ${this.handSideClass}`

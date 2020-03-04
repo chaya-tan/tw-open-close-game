@@ -2,12 +2,12 @@
   <div class="player-hands-group">
     <Hand
       :posture="leftPosture"
-      :hand-side="ALL_HANDSIDES.left"
+      :hand-side="HANDSIDES.left"
       :hand-direction="direction"
     />
     <Hand
       :posture="rightPosture"
-      :hand-side="ALL_HANDSIDES.right"
+      :hand-side="HANDSIDES.right"
       :hand-direction="direction"
     />
   </div>
@@ -15,11 +15,7 @@
 
 <script>
 import Hand from '../components/Hand.vue'
-import {
-  ALL_HAND_DIRECTIONS,
-  POSTURES,
-  ALL_HANDSIDES
-} from '../constants/constants.js'
+import { HAND_DIRECTIONS, POSTURES, HANDSIDES } from '../constants/constants.js'
 
 export default {
   components: {
@@ -29,7 +25,7 @@ export default {
     direction: {
       type: String,
       required: false,
-      default: ALL_HAND_DIRECTIONS.upward
+      default: HAND_DIRECTIONS.upward
     },
     leftPosture: {
       type: String,
@@ -44,9 +40,9 @@ export default {
   },
   data() {
     return {
-      ALL_HAND_DIRECTIONS,
+      HAND_DIRECTIONS,
       POSTURES,
-      ALL_HANDSIDES
+      HANDSIDES
     }
   }
 }

@@ -8,7 +8,7 @@
         :won="isPredictionCorrect"
       />
       <HandGroup
-        :direction="ALL_HAND_DIRECTIONS.downward"
+        :direction="HAND_DIRECTIONS.downward"
         :left-posture="playersHands[0].left"
         :right-posture="playersHands[0].right"
       />
@@ -16,7 +16,7 @@
 
     <div class="player">
       <HandGroup
-        :direction="ALL_HAND_DIRECTIONS.upward"
+        :direction="HAND_DIRECTIONS.upward"
         :left-posture="playersHands[userIndex].left"
         :right-posture="playersHands[userIndex].right"
       />
@@ -57,8 +57,8 @@
 import HandGroup from '../components/HandGroup.vue'
 import TeamHeader from '../components/TeamHeader.vue'
 import {
-  ALL_HANDSIDES,
-  ALL_HAND_DIRECTIONS,
+  HANDSIDES,
+  HAND_DIRECTIONS,
   POSTURES,
   ROLES,
   REGEX
@@ -72,8 +72,8 @@ export default {
   data() {
     return {
       POSTURES,
-      ALL_HANDSIDES,
-      ALL_HAND_DIRECTIONS,
+      HANDSIDES,
+      HAND_DIRECTIONS,
       userInput: '',
       formatWarning: '',
       players: [
@@ -85,6 +85,19 @@ export default {
     }
   },
   computed: {
+    isInputCorrect() {
+      if (this.nextTurnUserIsPredictor) {
+        return this.isPredictorInputFormat(this.userInput)
+      } else {
+        return this.isNormalInputFormat(this.userInput)
+      }
+    },
+    inputLength() {
+      return this.userInput.length
+    },
+    nextTurnUserIsPredictor() {
+      return this.nextTurnRole[this.userIndex].role === ROLES.predictor
+    },
     totalOpenHands() {
       let totalOpenHands = 0
       this.players.map((player) => {
@@ -97,7 +110,7 @@ export default {
       const predictor = this.players.filter(
         (player) => player.role === ROLES.predictor
       )
-      const predictionArray = predictor[0].hands.match(/[0-9]/g)
+      const predictionArray = predictor[0].hands.match(/[0-4]/g)
       const predictionNumber = parseInt(predictionArray[0])
       return predictionNumber
     },
@@ -112,12 +125,7 @@ export default {
       })
       return hands
     },
-    inputLength() {
-      return this.userInput.length
-    },
-    userIsPredictor() {
-      return this.players[this.userIndex].role === ROLES.predictor
-    },
+
     nextTurnRole() {
       return this.players.map((player) => {
         if (player.role === ROLES.predictor)
@@ -125,17 +133,6 @@ export default {
         if (player.role === ROLES.normal)
           return { name: player.name, role: ROLES.predictor }
       })
-    },
-    nextTurnUserIsPredictor() {
-      return this.nextTurnRole[this.userIndex].role === ROLES.predictor
-    },
-
-    isInputCorrect() {
-      if (this.nextTurnUserIsPredictor) {
-        return this.isPredictorInputFormat(this.userInput)
-      } else {
-        return this.isNormalInputFormat(this.userInput)
-      }
     },
     userInputPlaceholder() {
       if (this.nextTurnUserIsPredictor) {
@@ -146,6 +143,14 @@ export default {
     }
   },
   methods: {
+    isPredictorInputFormat(input) {
+      return (
+        (input.match(REGEX.predictor) || []).length > 0 && input.length === 3
+      )
+    },
+    isNormalInputFormat(input) {
+      return (input.match(REGEX.normal) || []).length > 0 && input.length === 2
+    },
     isHandPostureFormat(lastLetter) {
       return (lastLetter.match(/O|C/g) || []).length > 0
     },
@@ -185,17 +190,8 @@ export default {
         }
       } else if (this.inputLength > 3) {
         this.formatWarning =
-          'only 3 letter allowed for predictor!  hit ENTER to submit'
+          'only 3 letter allowed for predictor! hit ENTER to submit'
         this.deleteLastLetterInUserInput()
-      }
-    },
-    onInput(e) {
-      if (e.inputType === 'insertText') {
-        const lastLetter = e.data.toUpperCase()
-        this.userInput = this.userInput.toUpperCase()
-        this.checkUserInputFormat(lastLetter)
-      } else if (e.inputType === 'deleteContentBackward') {
-        this.formatWarning = ''
       }
     },
     randomHands(role) {
@@ -211,14 +207,6 @@ export default {
       }
       return randomResult
     },
-    isPredictorInputFormat(input) {
-      return (
-        (input.match(REGEX.predictor) || []).length > 0 && input.length === 3
-      )
-    },
-    isNormalInputFormat(input) {
-      return (input.match(REGEX.normal) || []).length > 0 && input.length === 2
-    },
     setNextTurn(input) {
       const nextTurnPlayers = this.nextTurnRole.map((player) => {
         return {
@@ -230,7 +218,17 @@ export default {
       nextTurnPlayers[this.userIndex].hands = input
       this.players = nextTurnPlayers
     },
+    onInput(e) {
+      if (e.inputType === 'insertText') {
+        const lastLetter = e.data.toUpperCase()
+        this.userInput = this.userInput.toUpperCase()
+        this.checkUserInputFormat(lastLetter)
+      } else if (e.inputType === 'deleteContentBackward') {
+        this.formatWarning = ''
+      }
+    },
     onSubmit(e) {
+      this.formatWarning = ''
       if (this.isInputCorrect) {
         this.setNextTurn(this.userInput)
       } else {
