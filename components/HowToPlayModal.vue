@@ -19,7 +19,7 @@
         <h5 class="modal-title">How to play:</h5>
         <p class="modal-text">
           You have to enter your hand in the next turn in these formats: 'OC2'
-          for predictor or 'OC' for the others
+          for predictor or 'OC' for the others. Then hit ENTER to submit
         </p>
         <h5 class="modal-title">Input format description:</h5>
         <p class="modal-text">
