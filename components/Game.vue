@@ -24,13 +24,12 @@
           Next turn you are
           {{ nextTurnUserIsPredictor ? 'predictor' : 'non-predictor' }}.
         </p>
-        <!-- <label for="player-input"></label> -->
         <input
           id="player-input"
           v-model="userInput"
           class="player-input"
           type="text"
-          placeholder="OC2"
+          :placeholder="userInputPlaceholder"
           @input="onInput"
           @keyup.enter="onSubmit"
         />
@@ -132,6 +131,13 @@ export default {
       } else {
         return this.isNormalInputFormat
       }
+    },
+    userInputPlaceholder() {
+      if (this.nextTurnUserIsPredictor) {
+        return 'CO3'
+      } else {
+        return 'OC'
+      }
     }
   },
   methods: {
@@ -168,11 +174,13 @@ export default {
         if (this.nextTurnUserIsPredictor) {
           this.deleteAndWarnIfPredictionFormatWrong(lastLetter)
         } else {
-          this.formatWarning = 'only 2 letter allowed for non-predictor!'
+          this.formatWarning =
+            'only 2 letter allowed for non-predictor! hit ENTER to submit'
           this.deleteLastLetterInUserInput()
         }
       } else if (this.inputLength > 3) {
-        this.formatWarning = 'only 3 letter allowed for predictor!'
+        this.formatWarning =
+          'only 3 letter allowed for predictor!  hit ENTER to submit'
         this.deleteLastLetterInUserInput()
       }
     },
