@@ -231,7 +231,6 @@ export default {
       }
     },
     onSubmit(e) {
-      this.formatWarning = ''
       if (this.isInputCorrect) {
         this.setNextTurn(this.userInput)
       } else {
@@ -240,6 +239,8 @@ export default {
         } while 'O' = open, 'C' = close ${this.nextTurnUserIsPredictor &&
           'and number 0-4 for total open hands prediction'}`
       }
+      this.formatWarning = ''
+      this.userInput = ''
     },
     reloadPage() {
       window.location.reload()
