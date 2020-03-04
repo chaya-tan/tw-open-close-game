@@ -248,14 +248,6 @@ export default {
 </script>
 
 <style scoped>
-.paper {
-  height: 95vh;
-  min-height: 700px;
-  min-width: 420px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 .form-group {
   display: flex;
   flex-direction: column;
