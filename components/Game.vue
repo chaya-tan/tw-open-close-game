@@ -9,20 +9,22 @@
       />
     </div>
 
-    <div class="game-status">
-      <p>TOTAL OPENED HANDS: {{ totalOpenHands }}</p>
-      <p>PREDICTION: {{ predictionNumber }}</p>
-    </div>
-
     <div class="player">
       <HandGroup
         :direction="ALL_HAND_DIRECTIONS.upward"
         :left-posture="playersHands[userIndex].left"
         :right-posture="playersHands[userIndex].right"
       />
-
-      <div class="form-group">
-        <label for="player-input">Next turn hands.</label>
+      <TeamHeader
+        :name="players[userIndex].name"
+        :role="players[userIndex].role"
+      />
+      <div class="form-group border-dotted border-thick">
+        <p>
+          Next turn you are
+          {{ nextTurnUserIsPredictor ? 'predictor' : 'non-predictor' }}.
+        </p>
+        <!-- <label for="player-input"></label> -->
         <input
           id="player-input"
           v-model="userInput"
@@ -30,14 +32,10 @@
           type="text"
           placeholder="OC2"
           @input="onInput"
-          @submit="onSubmit"
+          @keyup.enter="onSubmit"
         />
         <p class="text-danger">{{ formatWarning }}</p>
       </div>
-      <TeamHeader
-        :name="players[userIndex].name"
-        :role="players[userIndex].role"
-      />
     </div>
   </div>
 </template>
@@ -65,8 +63,8 @@ export default {
       userInput: '',
       formatWarning: '',
       players: [
-        { name: 'AI', hands: 'CO3', role: ROLES.predictor },
-        { name: 'P1', hands: 'OC', role: ROLES.normal }
+        { name: 'AI', hands: 'CO2', role: ROLES.predictor },
+        { name: 'YOU', hands: 'OC', role: ROLES.normal }
       ],
       userIndex: 1
     }
@@ -89,7 +87,7 @@ export default {
       return predictionNumber
     },
     isPredictionCorrect() {
-      return this.totalOpenHands === this.prediction
+      return this.totalOpenHands === this.predictionNumber
     },
     playersHands() {
       const hands = this.players.map((player) => {
@@ -104,6 +102,36 @@ export default {
     },
     userIsPredictor() {
       return this.players[this.userIndex].role === ROLES.predictor
+    },
+    nextTurnRole() {
+      return this.players.map((player) => {
+        if (player.role === ROLES.predictor)
+          return { name: player.name, role: ROLES.normal }
+        if (player.role === ROLES.normal)
+          return { name: player.name, role: ROLES.predictor }
+      })
+    },
+    nextTurnUserIsPredictor() {
+      return this.nextTurnRole[this.userIndex].role === ROLES.predictor
+    },
+    isPredictorInputFormat() {
+      return (
+        (this.userInput.match(/[O|C][O|C][0-4]/g) || []).length > 0 &&
+        this.userInput.length === 3
+      )
+    },
+    isNormalInputFormat() {
+      return (
+        (this.userInput.match(/[O|C][O|C]/g) || []).length > 0 &&
+        this.userInput.length === 2
+      )
+    },
+    isInputCorrect() {
+      if (this.nextTurnUserIsPredictor) {
+        return this.isPredictorInputFormat
+      } else {
+        return this.isNormalInputFormat
+      }
     }
   },
   methods: {
@@ -137,7 +165,7 @@ export default {
       if (this.inputLength > 0 && this.inputLength < 3) {
         this.deleteAndWarnIfPostoreFormatWrong(lastLetter)
       } else if (this.inputLength === 3) {
-        if (this.userIsPredictor) {
+        if (this.nextTurnUserIsPredictor) {
           this.deleteAndWarnIfPredictionFormatWrong(lastLetter)
         } else {
           this.formatWarning = 'only 2 letter allowed for non-predictor!'
@@ -159,6 +187,8 @@ export default {
     },
     onSubmit(e) {
       // TO DO: check format again before submit
+      console.log(e)
+      console.log('input', this.userInput)
     }
   }
 }

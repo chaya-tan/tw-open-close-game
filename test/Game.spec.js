@@ -21,7 +21,7 @@ describe('Game', () => {
       { name: 'P1', hands: 'OO', role: 'NORMAL' }
     ]
     wrapper.vm.players = sampleGamePlayers
-    expect(wrapper.vm.prediction).toBe(4)
+    expect(wrapper.vm.predictionNumber).toBe(4)
   })
   test('know whether the prediction is true', () => {
     const sampleGamePlayers = [
@@ -36,5 +36,31 @@ describe('Game', () => {
     ]
     wrapper.vm.players = sampleGamePlayers2
     expect(wrapper.vm.isPredictionCorrect).toBe(true)
+  })
+  test('validate predictor input', () => {
+    const sampleGamePlayers = [
+      { name: 'AI', hands: 'CO4', role: 'PREDICTOR' },
+      { name: 'P1', hands: 'OO', role: 'NORMAL' }
+    ]
+    wrapper.vm.players = sampleGamePlayers
+    wrapper.vm.userInput = 'OC3'
+    expect(wrapper.vm.isInputCorrect).toBe(true)
+    wrapper.vm.userInput = 'CO'
+    expect(wrapper.vm.isInputCorrect).toBe(false)
+    wrapper.vm.userInput = 'chicken'
+    expect(wrapper.vm.isInputCorrect).toBe(false)
+  })
+  test('validate non-predictor input', () => {
+    const sampleGamePlayers = [
+      { name: 'AI', hands: 'OO', role: 'NORMAL' },
+      { name: 'P1', hands: 'CO4', role: 'PREDICTOR' }
+    ]
+    wrapper.vm.players = sampleGamePlayers
+    wrapper.vm.userInput = 'OC3'
+    expect(wrapper.vm.isInputCorrect).toBe(false)
+    wrapper.vm.userInput = 'CO'
+    expect(wrapper.vm.isInputCorrect).toBe(true)
+    wrapper.vm.userInput = 'chicken'
+    expect(wrapper.vm.isInputCorrect).toBe(false)
   })
 })
