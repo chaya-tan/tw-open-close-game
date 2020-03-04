@@ -17,7 +17,7 @@
 import Hand from '../components/Hand.vue'
 import {
   ALL_HAND_DIRECTIONS,
-  ALL_HAND_POSTURES,
+  POSTURES,
   ALL_HANDSIDES
 } from '../constants/constants.js'
 
@@ -34,18 +34,18 @@ export default {
     leftPosture: {
       type: String,
       required: false,
-      default: ALL_HAND_POSTURES.open
+      default: POSTURES.open
     },
     rightPosture: {
       type: String,
       required: false,
-      default: ALL_HAND_POSTURES.open
+      default: POSTURES.open
     }
   },
   data() {
     return {
       ALL_HAND_DIRECTIONS,
-      ALL_HAND_POSTURES,
+      POSTURES,
       ALL_HANDSIDES
     }
   }

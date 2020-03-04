@@ -45,7 +45,7 @@ import TeamHeader from '../components/TeamHeader.vue'
 import {
   ALL_HANDSIDES,
   ALL_HAND_DIRECTIONS,
-  ALL_HAND_POSTURES,
+  POSTURES,
   ROLES
 } from '../constants/constants.js'
 
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      ALL_HAND_POSTURES,
+      POSTURES,
       ALL_HANDSIDES,
       ALL_HAND_DIRECTIONS,
       userInput: '',

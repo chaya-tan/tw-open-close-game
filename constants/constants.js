@@ -3,7 +3,7 @@ export const ALL_HANDSIDES = {
   right: 'RIGHT',
   left: 'LEFT'
 }
-export const ALL_HAND_POSTURES = {
+export const POSTURES = {
   open: 'O',
   close: 'C'
 }

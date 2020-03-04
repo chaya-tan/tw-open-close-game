@@ -3,7 +3,7 @@
     <img
       :src="
         require(`../assets/images/hands/${
-          posture === ALL_HAND_POSTURES.open ? 'open-hand' : 'fist'
+          posture === POSTURES.open ? 'open-hand' : 'fist'
         }.svg`)
       "
       :class="imgClass"
@@ -14,7 +14,7 @@
 
 <script>
 import {
-  ALL_HAND_POSTURES,
+  POSTURES,
   ALL_HANDSIDES,
   ALL_HAND_DIRECTIONS
 } from '../constants/constants.js'
@@ -23,7 +23,7 @@ export default {
   props: {
     posture: {
       type: String,
-      default: ALL_HAND_POSTURES.open,
+      default: POSTURES.open,
       required: false
     },
     handSide: {
@@ -39,12 +39,12 @@ export default {
   },
   data() {
     return {
-      ALL_HAND_POSTURES
+      POSTURES
     }
   },
   computed: {
     postureClass() {
-      return this.posture === ALL_HAND_POSTURES.open ? 'open' : 'close'
+      return this.posture === POSTURES.open ? 'open' : 'close'
     },
     directionClass() {
       return this.handDirection === ALL_HAND_DIRECTIONS.downward && 'downward'
