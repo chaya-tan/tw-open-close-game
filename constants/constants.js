@@ -11,3 +11,7 @@ export const ROLES = {
   predictor: 'PREDICTOR',
   normal: 'NORMAL'
 }
+export const REGEX = {
+  predictor: /[O|C][O|C][0-4]/g,
+  normal: /[O|C][O|C]/g
+}

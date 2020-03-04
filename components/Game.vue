@@ -46,7 +46,8 @@ import {
   ALL_HANDSIDES,
   ALL_HAND_DIRECTIONS,
   POSTURES,
-  ROLES
+  ROLES,
+  REGEX
 } from '../constants/constants.js'
 
 export default {
@@ -197,11 +198,11 @@ export default {
     },
     isPredictorInputFormat(input) {
       return (
-        (input.match(/[O|C][O|C][0-4]/g) || []).length > 0 && input.length === 3
+        (input.match(REGEX.predictor) || []).length > 0 && input.length === 3
       )
     },
     isNormalInputFormat(input) {
-      return (input.match(/[O|C][O|C]/g) || []).length > 0 && input.length === 2
+      return (input.match(REGEX.normal) || []).length > 0 && input.length === 2
     },
     onSubmit(e) {
       if (this.isInputCorrect) {
